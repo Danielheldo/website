@@ -1,0 +1,48 @@
+body {
+    background-color: rgb(29, 26, 46);
+}
+
+.videocontainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+.videWrapper {
+    position: relative;
+    padding-bottom: 56.25%;  /* 16:9  NICHT ÄNDERN */
+    height: 0;
+    width: 100%;
+    max-width: 800px;
+    color: rgb(29, 26, 46);
+}
+
+.videWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.text {
+    text-decoration: none;
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    font: italic;
+}
+
+.home a{
+    background: rgb(29, 26, 46);
+    color: #fff;
+    display: block;
+    position: relative;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 40px;
+    border: 1px solid white;
+    width: 6%;
+}
