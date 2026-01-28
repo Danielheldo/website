@@ -17,5 +17,29 @@
             </ul>
         </li>
     </ul> 
+    <div class="lamp-wrapper">
+        <div class="lamp">
+            <div class="lamp-part -body left"></div>
+            <div class="lamp-part -body right"></div>
+            <div class="lamp-part -top"></div>
+            <div class="lamp-part -bottom"></div>
+        </div>
+    </div>
+    <form>
+        <input 
+        type="range"
+        min="0"
+        max="100"
+        value="50"
+        id="dimmer"
+        >
+    </form>
+    <script>
+        const slider = document.getElementById("dimmer")
+        slider.addEventListener("input", e => {
+            const value = e.target.value / 100;
+            document.documentElement.style.setProperty("--lamp-brightness", value);
+        });
+    </script>
 </body>
 </html>

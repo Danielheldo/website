@@ -2,7 +2,19 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: rgb(29, 26, 46);
+}
+
+:root {
+    --main-bg-color: rgb(29, 26, 46);
+    --secondary-bg-color: rgb(40, 38, 70);
+    --shadow-color: rgba(0,0,0,0.5);
+    --lamp-width: 140px;
+    --lamp-height: 160px;
+    --lamp-top-height: 40px;
+    --lamp-dark-color: #2f2b4a;
+    --lamp-light-color: #fff6b0;
+    --border-color: #d8cf8a;
+    --lamp-brightness: 0.5;
 }
 
 .dropdownmenu {
@@ -48,4 +60,105 @@
     text-decoration: none;
     border: 1px solid #fff;
     margin-left: 15px;
+}
+
+.body {
+    box-sizing: border-box;
+    margin: 0; 
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgb(29, 26, 46);
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(255,255,200, calc(var(--lamp-brightness) * 0.35)) 0%,
+        rgba(29,26,46,1) 60%
+    );
+    pointer-events: none;
+    transition: 0.1s;
+}
+
+form{
+    position: relative;
+    z-index: 10;
+    margin: 0;
+    width: 200px;
+    padding: 2em 2.2em;
+    border-radius: 4px;
+    background: var(--secondary-bg-color);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.lamp-wrapper {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.lamp {
+    height: var(--lamp-height);
+    width: var(--lamp-width);
+    position: relative;
+    z-index: 2;
+}
+
+.lamp-part {
+    background-color: var(--lamp-dark-color);
+    transform: skewX(-5deg);
+    height: var(--lamp-height);
+    width: 60%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.lamp-part.-body.right {
+    transform: skewX(5deg);
+    left: auto;
+    right: 0;
+}
+
+.lamp-part.-top {
+    background: transparent;
+    position: absolute;
+    width: calc(var(--lamp-width) - 10px);
+    height: var(--lamp-top-height);
+    left: 6px;
+    top: -17px;
+}
+
+.lamp-part.-bottom {
+    background: linear-gradient(
+        rgba(255, 255, 240, calc(var(--lamp-brightness) * 0.6)),
+        rgba(255, 255, 200, var(--lamp-brightness)));
+    box-shadow:
+        0 0 40px rgba(255, 255, 200, var(--lamp-brightness)),
+        0 0 80px rgba(255, 255, 200, calc(var(--lamp-brightness) * 0.6));
+    height: calc(var(--lamp-top-height) + 10px);
+    width: calc(var(--lamp-width) + 10px);
+    position: absolute;
+    top: auto;
+    bottom: -18px;
+    left: -5px;
+    border-radius: 50%;
+    border-top: 3px solid var(--border-color);
+    border-bottom: 2px solid var(--lamp-light-color);
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 20px;
 }
