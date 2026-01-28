@@ -11,7 +11,7 @@
         <li>
             <a href="#">Socials</a>
             <ul>
-                <li><a href=youtube.html>Youtube</a></li>
+                <li><a href="youtube.html">Youtube</a></li>
                 <li><a href="https://github.com/Danielheldo" target="_blank">Github</a></li>
                 <li><a href="https://x.com/Danielheldo" target="_blank">Twitter</a></li>
             </ul>
@@ -35,11 +35,15 @@
         >
     </form>
     <script>
-        const slider = document.getElementById("dimmer")
+        const slider = document.getElementById("dimmer");
+        // ensure CSS var matches slider value on load
+        const applyBrightness = v => document.documentElement.style.setProperty("--lamp-brightness", v);
         slider.addEventListener("input", e => {
             const value = e.target.value / 100;
-            document.documentElement.style.setProperty("--lamp-brightness", value);
+            applyBrightness(value);
         });
+        // initialize from slider value
+        applyBrightness(slider.value / 100);
     </script>
 </body>
 </html>

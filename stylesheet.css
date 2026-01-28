@@ -14,61 +14,73 @@
     --lamp-dark-color: #2f2b4a;
     --lamp-light-color: #fff6b0;
     --border-color: #d8cf8a;
-    --lamp-brightness: 0.5;
+    --lamp-brightness: 0.1;
 }
 
 .dropdownmenu {
-    display: block;
-    width: 10%;
+    position: fixed; /* pin to viewport */
+    top: 12px;
+    left: 12px;
+    z-index: 999;
+    width: auto;
+}
+
+.dropdownmenu li {
+    list-style: none;
     position: relative;
 }
 
 .dropdownmenu > li > a {
-    background: rgb(29, 26, 46);
+    background: var(--main-bg-color);
     color: #fff;
-    display: block;
-    padding: 10px 20px;
-    text-align: center;
+    display: inline-block;
+    padding: 8px 14px;
     text-decoration: none;
-    position: relative;
-    font-size: 30px;
-
+    font-size: 24px;
+    border-radius: 6px;
 }
 
 .dropdownmenu ul {
-    background: rgb(29, 26, 46);
-    color: #ffffff;
-    height: 0;
+    position: absolute;
+    top: calc(100% + 6px);
     left: 0;
+    background: var(--secondary-bg-color);
+    color: #fff;
     opacity: 0;
-    transition: all 1s ease;
-    top: 50px;
-    text-align: center;
-    font-size: 20px;
-
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms;
+    min-width: 160px;
+    padding: 6px 0;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px var(--shadow-color);
 }
 
-.dropdownmenu li:hover ul {
+.dropdownmenu li:hover > ul {
     opacity: 1;
-    transform: translateY(6px);
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .dropdownmenu ul a {
-    color: #ffffff;
+    color: #fff;
     display: block;
-    padding: 10px 20px;
+    padding: 8px 14px;
     text-decoration: none;
-    border: 1px solid #fff;
-    margin-left: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.body {
+.dropdownmenu ul a:last-child {
+    border-bottom: none;
+}
+
+body {
     box-sizing: border-box;
     margin: 0; 
-    padding: 0;
+    padding: 140px 0 0; /* push page content below the hanging lamp */
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-start; /* align content from top */
     align-items: center;
     background-color: rgb(29, 26, 46);
     overflow: hidden;
@@ -82,18 +94,18 @@ body::before {
     inset: 0;
     background: radial-gradient(
         circle at center,
-        rgba(255,255,200, calc(var(--lamp-brightness) * 0.35)) 0%,
+        rgba(255,255,255, calc(var(--lamp-brightness) * 0.55)) 0%,
         rgba(29,26,46,1) 60%
     );
     pointer-events: none;
-    transition: 0.1s;
+    transition: 0.2s;
 }
 
 form{
     position: relative;
     z-index: 10;
-    margin: 0;
-    width: 200px;
+    margin-top: 700px;
+    width: 400px;
     padding: 2em 2.2em;
     border-radius: 4px;
     background: var(--secondary-bg-color);
@@ -101,17 +113,47 @@ form{
 }
 
 .lamp-wrapper {
-    position: relative;
-    z-index: 5;
+    position: fixed; /* keep the lamp pinned to the top of the viewport */
+    top: 12px;      /* distance from the "ceiling" */
+    left: 0;
     width: 100%;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 5;
+    pointer-events: none; /* allow interacting with other UI under/around the lamp */
 }
 
 .lamp {
     height: var(--lamp-height);
     width: var(--lamp-width);
     position: relative;
+    z-index: 2;
+    overflow: visible;
+    padding-bottom: 60px; /* keep glow space below lamp */
+    margin-top: 0;
+    pointer-events: auto; /* if you want to interact with the lamp itself later, remove this if not needed */
+}
+
+/* small "cord" so the lamp appears hanging from the ceiling */
+.lamp::before {
+    content: "";
+    position: absolute;
+    top: -72px; /* length of the cord */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 72px;
+    background: linear-gradient(180deg, #444 0%, #222 50%, #444 100%);
+    border-radius: 2px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.lamp-body {
+    position: relative;
+    width: 100%;
+    height: var(--lamp-height);
     z-index: 2;
 }
 
@@ -138,24 +180,29 @@ form{
     height: var(--lamp-top-height);
     left: 6px;
     top: -17px;
+    z-index: 3;
 }
 
 .lamp-part.-bottom {
-    background: linear-gradient(
-        rgba(255, 255, 240, calc(var(--lamp-brightness) * 0.6)),
-        rgba(255, 255, 200, var(--lamp-brightness)));
+    background: radial-gradient(circle at 50% 35%,
+        rgba(255, 255, 200, calc(var(--lamp-brightness) * 1.0)) 0%,
+        rgba(255, 255, 200, calc(var(--lamp-brightness) * 0.6)) 25%,
+        rgba(255, 255, 200, calc(var(--lamp-brightness) * 0.15)) 45%,
+        rgba(29, 26, 46, 1) 60%);
     box-shadow:
-        0 0 40px rgba(255, 255, 200, var(--lamp-brightness)),
+        0 0 40px rgba(255, 255, 200, calc(var(--lamp-brightness) * 0.9)),
         0 0 80px rgba(255, 255, 200, calc(var(--lamp-brightness) * 0.6));
     height: calc(var(--lamp-top-height) + 10px);
-    width: calc(var(--lamp-width) + 10px);
+    width: calc(var(--lamp-width) + 14px);
     position: absolute;
     top: auto;
-    bottom: -18px;
-    left: -5px;
+    bottom: -23px;
+    left: -7px;
     border-radius: 50%;
     border-top: 3px solid var(--border-color);
     border-bottom: 2px solid var(--lamp-light-color);
+    z-index: 4; /* place glow above lamp parts so the lamp box isn't visible inside it */
+    pointer-events: none;
 }
 
 input[type="range"] {
